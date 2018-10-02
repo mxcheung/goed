@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+au.com.goed.starter.swagger.SwaggerConfiguration,\
+au.com.goed.starter.actuator.ActuatorConfiguration,\
+au.com.goed.starter.cloud.CloudConfiguration

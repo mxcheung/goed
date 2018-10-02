@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+au.com.goed.starter.oauth2.resource.Oauth2ResourceConfiguration,\
+au.com.goed.starter.oauth2.resource.JDBCTokenConfiguration,\
+au.com.goed.starter.oauth2.resource.RemoteTokenConfiguration,\
+au.com.goed.starter.oauth2.resource.SwaggerConsoleConfiguration,\
+au.com.goed.starter.oauth2.resource.CorsServiceConfiguration,\
+au.com.goed.starter.oauth2.web.WebConfiguration

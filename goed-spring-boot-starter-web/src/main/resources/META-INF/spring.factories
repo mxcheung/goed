@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+au.com.goed.starter.web.configuration.WebConfiguration,\
+au.com.goed.starter.web.configuration.CloudConfiguration
