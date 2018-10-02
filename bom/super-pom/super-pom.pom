@@ -1,0 +1,3264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- ================================================================================== -->
+	<!-- WELCOME TO THE GOED SUPERPOM -->
+	<!-- ================================================================================== -->
+
+	<!-- How to use the super-pom: -->
+
+	<!-- This only hold the plugin and repository information, you should not 
+		be adding anything to this really. Use a BOM project to manage you dependency 
+		managemnet. See kernel-bom, gateway-bom, ent-spec-bom or myob-bom for an 
+		example. -->
+
+	<!-- Refer to Maven - POM BOM Model in Confluence -->
+
+	<!-- ================================================================================== -->
+
+	<groupId>au.com.goed</groupId>
+	<artifactId>super-pom</artifactId>
+	<version>1.0.32</version>
+	<packaging>pom</packaging>
+
+	<name>super-pom</name>
+
+	<scm>
+		<connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/super-pom-1.0.32</connection>
+		<developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/super-pom-1.0.32</developerConnection>
+		<url>http://url.of.browsable.repository.in.fisheye/tags/super-pom-1.0.32</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>https://scnexus.goed.com.au/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>https://scnexus.goed.com.au/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+
+		<!-- ========================================== -->
+		<!-- The Super Choice Release Properties -->
+		<!-- ========================================== -->
+
+		<release>trunk</release>
+		<build.current.revision>$SVN_REVISION</build.current.revision>
+		<build.current.number>$BUILD_NUMBER</build.current.number>
+		<jdk.version>1.7</jdk.version>
+		<downloadSources>true</downloadSources>
+
+		<!-- ========================================== -->
+		<!-- The Super Choice Environment Names -->
+		<!-- ========================================== -->
+
+		<environment.dev.alias>DEV</environment.dev.alias>
+		<environment.int.alias>INT</environment.int.alias>
+		<environment.qang.alias>QANG</environment.qang.alias>
+		<environment.uat.alias>UAT</environment.uat.alias>
+		<environment.sandpit.alias>SANDPIT</environment.sandpit.alias>
+		<environment.dr.alias>DR</environment.dr.alias>
+		<environment.prod.alias>PROD</environment.prod.alias>
+
+		<!-- ========================================== -->
+		<!-- Code Quality -->
+		<!-- ========================================== -->
+
+		<!-- Possibly temporary ... should the bom projects depend on the super-pom 
+			or the super-pom import the bom's? I.E. If the bom's stop using this pom 
+			as a super-pom then can use the common-bom instead of defining the versions 
+			below -->
+        <ent-common-util-util.version>1.0.0</ent-common-util-util.version>
+        <ent-common-util-spring.version>1.0.0</ent-common-util-spring.version>
+        <ent-common-codequality.version>1.0.1</ent-common-codequality.version>
+		<maven-site-plugin.version>3.3</maven-site-plugin.version>
+		<versions-maven-plugin.version>2.1</versions-maven-plugin.version>
+
+		<!-- ========================================== -->
+		<!-- Version Properties -->
+		<!-- ========================================== -->
+
+		<BambooBuildNumber>Must be passed as parameter to Bamboo build</BambooBuildNumber>
+		<SubversionRevisionNumber>Must be passed as parameter to Bamboo build</SubversionRevisionNumber>
+		<BambooBuildResultsURL>Must be passed as parameter to Bamboo build</BambooBuildResultsURL>
+
+		<!-- Test Coverage Levels -->
+		<minimum.test.coverage.totalBranchRate>40</minimum.test.coverage.totalBranchRate>
+		<minimum.test.coverage.totalLineRate>40</minimum.test.coverage.totalLineRate>
+
+		<excluded.test.coverage.classes />
+		<excluded.test.coverage.classes.two />
+
+
+		<!-- ====================================== -->
+		<!-- Third Party Plugin Libs -->
+		<!-- ====================================== -->
+
+		<!-- These plugins versions here exist to help support the code generation 
+			thats required for the various specification projects/modules that are across 
+			the enterprise. -->
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-findbugs-plugin.version>2.5.3</maven-findbugs-plugin.version>
+		<maven-project-info-reports-plugin.version>2.4</maven-project-info-reports-plugin.version>
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-javadoc-plugin.version>2.8.1</maven-javadoc-plugin.version>
+		<maven-release-plugin.version>2.4.2</maven-release-plugin.version>
+		<maven-datanucleus-plugin.version>3.1.0-m3</maven-datanucleus-plugin.version>
+		<jaxb2-maven-plugin.version>1.5</jaxb2-maven-plugin.version>
+		<maven-scm-provider-svnjava-plugin.version>2.0.6</maven-scm-provider-svnjava-plugin.version>
+		<build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
+		<maven-jaxb2-plugin.version>0.8.3</maven-jaxb2-plugin.version>
+		<maven-bundle-plugin.version>2.4.0</maven-bundle-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<jaxb2-basics-plugin.version>0.6.0</jaxb2-basics-plugin.version>
+		<jaxb2-basics-annotate-plugin.version>0.6.0</jaxb2-basics-annotate-plugin.version>
+		<maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
+		<lifecycle-mapping-plugin.version>1.0.0</lifecycle-mapping-plugin.version>
+		<org.apache.servicemix.specs.saaj-api-1.3.version>1.2.0</org.apache.servicemix.specs.saaj-api-1.3.version>
+
+		<!-- Datanucleus plugin versions -->
+		<datanucleus.maven.plugin.version>3.3.0-release</datanucleus.maven.plugin.version>
+
+
+		<!-- findbugs -->
+
+		<findbugs.check.threshold>High</findbugs.check.threshold>
+		<findbugs.check.maxRank>4</findbugs.check.maxRank>
+		<!-- aka scariest -->
+
+		<findbugs.report.threshold>Low</findbugs.report.threshold>
+		<findbugs.report.maxRank>20</findbugs.report.maxRank>
+
+		<findbugs.annotations.version>2.0.3</findbugs.annotations.version>
+
+		<!-- Enforcer plugin -->
+		<maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
+		<!-- Enforcer plugin -->
+
+		<!-- Liquibase -->
+		<liquibase-core.version>3.3.0</liquibase-core.version>
+		<liquibase-maven-plugin.version>3.3.0</liquibase-maven-plugin.version>
+		<liquibase-nochangelogupdate.version>1.1</liquibase-nochangelogupdate.version>
+		<liquibase-nochangelog-property.name>liquibase.ext.nochangelogupdate.enabled</liquibase-nochangelog-property.name>
+		<properties-maven-plugin.version>1.0-alpha-2</properties-maven-plugin.version>
+
+		<!-- General definitions -->
+		<liquibase-general.directory>${basedir}/src/main/resources/db</liquibase-general.directory>
+		<liquibase-general-release.directory>${liquibase-general.directory}/release</liquibase-general-release.directory>
+		<liquibase-general-environment.directory>${liquibase-general.directory}/environment</liquibase-general-environment.directory>
+		<liquibase-general-plugin-properties.filename>liquibasePlugin.properties</liquibase-general-plugin-properties.filename>
+		<liquibase-migration-sql.directory>${project.build.directory}/sql</liquibase-migration-sql.directory>
+		<!-- General definitions -->
+
+		<!-- DEV environment definitions -->
+		<liquibase-dev.directory>${liquibase-general-environment.directory}/dev</liquibase-dev.directory>
+		<liquibase-dev-properties.directory>${liquibase-dev.directory}/properties</liquibase-dev-properties.directory>
+		<liquibase-dev-plugin-properties.resource>${liquibase-dev-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-dev-plugin-properties.resource>
+		<!-- DEV environment definitions -->
+
+		<!-- INT environment definitions -->
+		<liquibase-int.directory>${liquibase-general-environment.directory}/int</liquibase-int.directory>
+		<liquibase-int-properties.directory>${liquibase-int.directory}/properties</liquibase-int-properties.directory>
+		<liquibase-int-plugin-properties.resource>${liquibase-int-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-int-plugin-properties.resource>
+		<!-- INT environment definitions -->
+
+		<!-- QANG environment definitions -->
+		<liquibase-qang.directory>${liquibase-general-environment.directory}/qang</liquibase-qang.directory>
+		<liquibase-qang-properties.directory>${liquibase-qang.directory}/properties</liquibase-qang-properties.directory>
+		<liquibase-qang-plugin-properties.resource>${liquibase-qang-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-qang-plugin-properties.resource>
+		<!-- QANG environment definitions -->
+
+		<!-- UAT environment definitions -->
+		<liquibase-uat.directory>${liquibase-general-environment.directory}/uat</liquibase-uat.directory>
+		<liquibase-uat-properties.directory>${liquibase-uat.directory}/properties</liquibase-uat-properties.directory>
+		<liquibase-uat-plugin-properties.resource>${liquibase-uat-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-uat-plugin-properties.resource>
+		<!-- UAT environment definitions -->
+
+		<!-- SANDPIT environment definitions -->
+		<liquibase-sandpit.directory>${liquibase-general-environment.directory}/sandpit</liquibase-sandpit.directory>
+		<liquibase-sandpit-properties.directory>${liquibase-sandpit.directory}/properties</liquibase-sandpit-properties.directory>
+		<liquibase-sandpit-plugin-properties.resource>${liquibase-sandpit-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-sandpit-plugin-properties.resource>
+		<!-- SANDPIT environment definitions -->
+
+		<!-- DR environment definitions, commneted out as its having cyclic issues 
+			, yet looks like all the others. -->
+		<!-- <liquibase-dr.directory>${liquibase-general-environment.directory}/dr</liquibase-dr.directory> -->
+		<!-- <liquibase-dr-properties.directory>${liquibase-dr.directory}/properties</liquibase-dr-properties.directory> -->
+		<!-- <liquibase-dr-plugin-properties.resource>${liquibase-dr-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-dr-plugin-properties.resource> -->
+		<!-- DR environment definitions -->
+
+		<!-- PROD environment definitions -->
+		<liquibase-prod.directory>${liquibase-general-environment.directory}/prod</liquibase-prod.directory>
+		<liquibase-prod-properties.directory>${liquibase-prod.directory}/properties</liquibase-prod-properties.directory>
+		<liquibase-prod-plugin-properties.resource>${liquibase-prod-properties.directory}/${liquibase-general-plugin-properties.filename}</liquibase-prod-plugin-properties.resource>
+		<!-- PROD environment definitions -->
+
+		<!-- Liquibase -->
+
+		<!-- Overwrite SVNKit library in edge.deployer -->
+		<svnkitVersion>1.8.10</svnkitVersion>
+		<!-- Overwrite SVNKit library in edge.deployer -->
+
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle-mapping-plugin.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.datanucleus</groupId>
+										<artifactId>maven-datanucleus-plugin</artifactId>
+										<versionRange>[3.1.0-m3,)</versionRange>
+										<goals>
+											<goal>enhance</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<!-- JAXB Maven plugin to generate JAXB objects from XSDs -->
+
+				<plugin>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<version>${maven-jaxb2-plugin.version}</version>
+
+					<!-- JH 24/01/2014: We are using this version because it will actually 
+						generate the code that we want. This decision due to this thread... http://stackoverflow.com/questions/2432859/difference-of-maven-jaxb-plugins -->
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<compilerArgument>-XDignore.symbol.file</compilerArgument>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>test-jar</id>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<BambooBuildNumber>${BambooBuildNumber}</BambooBuildNumber>
+							<BambooBuildResultsURL>${BambooBuildResultsURL}</BambooBuildResultsURL>
+							<SubversionRevisionNumber>${SubversionRevisionNumber}</SubversionRevisionNumber>
+							<MavenVersionNumber>${project.version}</MavenVersionNumber>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<BambooBuildNumber>${BambooBuildNumber}</BambooBuildNumber>
+							<BambooBuildResultsURL>${BambooBuildResultsURL}</BambooBuildResultsURL>
+							<SubversionRevisionNumber>${SubversionRevisionNumber}</SubversionRevisionNumber>
+							<MavenVersionNumber>${project.version}</MavenVersionNumber>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>${maven-release-plugin.version}</version>
+				<configuration>
+					<goals>install</goals>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+
+		<profile>
+			<id>full-gateway-build</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>../GatewayBridge</module>
+				<module>../GatewayMsgMaker</module>
+				<module>../ent-common-msg-service-as4</module>
+				<module>../ent-common-msg-service-as4-axway</module>
+				<module>../GatewayRouter</module>
+				<module>../GatewayRouterUI</module>
+			</modules>
+		</profile>
+
+		<!-- Not used, can delete this? -->
+		<!-- <profile> -->
+		<!-- <id>full-child-build</id> -->
+		<!-- <activation> -->
+		<!-- <activeByDefault>false</activeByDefault> -->
+		<!-- </activation> -->
+		<!-- <modules> -->
+		<!-- <module>ent-bis-common</module> -->
+		<!-- <module>ent-bis-email-messaging</module> -->
+		<!-- <module>ent-bis-rollover-common</module> -->
+		<!-- <module>ent-bis-rollover-data</module> -->
+		<!-- <module>ent-bis-rollover-in</module> -->
+		<!-- <module>ent-bis-rollover-translators</module> -->
+		<!-- <module>ent-bis-validation-service</module> -->
+		<!-- <module>ent-bis-validation-service-build</module> -->
+		<!-- <module>ent-common-util-rest</module> -->
+		<!-- <module>ent-spec-rest-generator-plugin</module> -->
+		<!-- <module>ent-super-tic-data</module> -->
+		<!-- <module>perpetual-aggregate-pom</module> -->
+		<!-- <module>perpetual-int-rollover-api</module> -->
+		<!-- <module>perpetual-int-rollover-common</module> -->
+		<!-- <module>perpetual-int-rollovers-in</module> -->
+		<!-- <module>perpetual-int-rollovers-out</module> -->
+		<!-- <module>perpetual-int-rollovers-out-mock-server</module> -->
+		<!-- <module>perpetual-queue-build</module> -->
+		<!-- </modules> -->
+		<!-- </profile> -->
+
+		<profile>
+			<id>deployer</id>
+
+			<properties>
+				<autoversion-submodules>false</autoversion-submodules>
+				<check-modification-exclude-list />
+			</properties>
+
+			<build>
+				<plugins>
+
+					<!-- enables release process to tag builds in Subversion -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.8.1</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+							<username>username</username>
+							<password>password</password>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.4.2</version>
+						<dependencies>
+							<dependency>
+								<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+								<artifactId>maven-scm-provider-svnjava</artifactId>
+								<version>2.0.6</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<providerImplementations>
+								<svn>javasvn</svn>
+							</providerImplementations>
+							<preparationGoals>clean install</preparationGoals>
+							<goals>deploy</goals>
+							<autoVersionSubmodules>${autoversion-submodules}</autoVersionSubmodules>
+							<checkModificationExcludeList>${check-modification-exclude-list}</checkModificationExcludeList>
+							<!-- following arguments have to be oneliner -->
+							<arguments>-DBambooBuildNumber=${BambooBuildNumber} -DBambooBuildResultsURL=${BambooBuildResultsURL} -DSubversionRevisionNumber=${SubversionRevisionNumber}</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+			<id>edge.deployer</id>
+
+			<properties>
+				<autoversion-submodules>false</autoversion-submodules>
+				<check-modification-exclude-list />
+			</properties>
+
+			
+
+			<build>
+			
+				<plugins>
+
+					<!-- enables release process to tag builds in Subversion -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.9.4</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+							<username>username</username>
+							<password>password</password>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.5.2</version>
+						<dependencies>
+							<dependency>
+								<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+								<artifactId>maven-scm-provider-svnjava</artifactId>
+								<version>2.1.1</version>
+							</dependency>
+							<dependency>
+								<groupId>org.tmatesoft.svnkit</groupId>
+								<artifactId>svnkit</artifactId>
+								<version>${svnkitVersion}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<providerImplementations>
+								<svn>javasvn</svn>
+							</providerImplementations>
+							<preparationGoals>clean install</preparationGoals>
+							<goals>deploy</goals>
+							<autoVersionSubmodules>${autoversion-submodules}</autoVersionSubmodules>
+							<checkModificationExcludeList>${check-modification-exclude-list}</checkModificationExcludeList>
+							<arguments>-DBambooBuildNumber=${BambooBuildNumber}
+								-DBambooBuildResultsURL=${BambooBuildResultsURL}
+								-DSubversionRevisionNumber=${SubversionRevisionNumber}</arguments>
+								
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>codequality</id>
+
+			<build>
+				<plugins>
+
+					<!-- carries out a findbugs 'check' - will fail the build if bugs detetced -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+						<version>${maven-findbugs-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>verify</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<threshold>${findbugs.check.threshold}</threshold>
+							<maxRank>${findbugs.check.maxRank}</maxRank>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>2.11</version>
+						<executions>
+							<execution>
+								<id>verify</id>
+								<phase>verify</phase>
+
+								<goals>
+									<goal>check</goal>
+								</goals>
+
+								<configuration>
+									<configLocation>http://scnexus.nb.goed.com.au:8081/nexus/content/repositories/releases/au/com/goed/ent-common-checkstylerulesfile/2.0.11/ent-common-checkstylerulesfile-2.0.11.xml</configLocation>
+									<consoleOutput>true</consoleOutput>
+									<failsOnError>true</failsOnError>
+									<suppressionsLocation>${basedir}/src/main/resources/checkstyle/CheckstyleSuppressions.xml</suppressionsLocation>
+									<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+									<includeTestSourceDirectory>true</includeTestSourceDirectory>
+									<testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+									<includeResources>false</includeResources>
+
+								</configuration>
+
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.15</version>
+						<configuration>
+							<dependenciesToScan>
+								<dependency>au.com.goed:ent-common-codequality</dependency>
+							</dependenciesToScan>
+
+							<!-- for some strange reason the build will carry on after failed 
+								tests unless this is specified here -->
+							<testFailureIgnore>false</testFailureIgnore>
+						</configuration>
+					</plugin>
+
+					<!-- the Cobertura plugin will run the unit tests again but this article 
+						has persuaded me that this is actually a good approach : http://stackoverflow.com/questions/732995/running-junits-and-cobertura-with-maven -->
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<version>2.6</version>
+
+						<executions>
+
+							<execution>
+								<id>cobertura-report</id>
+								<phase>prepare-package</phase>
+
+								<goals>
+									<goal>clean</goal>
+									<goal>cobertura</goal>
+									<!-- instrument, test and generate report -->
+								</goals>
+								<!-- run in the next phase after 'test' -->
+
+								<configuration>
+									<formats>
+										<format>xml</format>
+										<format>html</format>
+									</formats>
+									<forceMojoExecution>true</forceMojoExecution>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>cobertura-check</id>
+								<phase>prepare-package</phase>
+
+								<goals>
+									<goal>check</goal>
+									<!-- fail build if coverage is too low -->
+								</goals>
+								<!-- run in the next phase after 'test' -->
+
+								<configuration>
+									<check>
+
+										<haltOnFailure>true</haltOnFailure>
+
+										<totalBranchRate>${minimum.test.coverage.totalBranchRate}</totalBranchRate>
+										<totalLineRate>${minimum.test.coverage.totalLineRate}</totalLineRate>
+
+									</check>
+									<forceMojoExecution>true</forceMojoExecution>
+								</configuration>
+							</execution>
+
+						</executions>
+						<configuration>
+							<instrumentation>
+								<excludes>
+									<exclude>${excluded.test.coverage.classes}</exclude>
+									<exclude>${excluded.test.coverage.classes.two}</exclude>
+								</excludes>
+							</instrumentation>
+						</configuration>
+					</plugin>
+
+					<!-- generates findbugs and failsafe reports ( without failing the build 
+						) when the 'site' target is executed -->
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${maven-site-plugin.version}</version>
+						<configuration>
+							<reportPlugins>
+								<plugin>
+									<groupId>org.codehaus.mojo</groupId>
+									<artifactId>findbugs-maven-plugin</artifactId>
+									<version>${maven-findbugs-plugin.version}</version>
+									<configuration>
+										<threshold>${findbugs.report.threshold}</threshold>
+										<maxRank>${findbugs.report.maxRank}</maxRank>
+										<failOnError>false</failOnError>
+									</configuration>
+								</plugin>
+
+								<!-- generates the failsafe report ( even though it uses the surefire 
+									plugin ) -->
+								<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-surefire-report-plugin</artifactId>
+									<version>2.17</version>
+									<reportSets>
+										<reportSet>
+											<id>integration-tests</id>
+											<reports>
+												<report>failsafe-report-only</report>
+											</reports>
+										</reportSet>
+									</reportSets>
+								</plugin>
+
+								<!-- force an index.html to be generated -->
+								<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-project-info-reports-plugin</artifactId>
+									<version>${maven-project-info-reports-plugin.version}</version>
+									<configuration>
+										<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+										<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+									</configuration>
+									<reports>
+										<report>index</report>
+									</reports>
+								</plugin>
+							</reportPlugins>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+
+			<dependencies>
+				<!-- this enables the code quality tests to run automatically for any 
+					module that pulls in the super-pom There currently needs to be two dependencies 
+					: - one with classifier 'tests' - this is the one that the surefire plugin 
+					dependenciesToScan will find - one without the classifier 'tests' - this 
+					provides the (non-test) classes that the tests need in order to run I haven't 
+					been able to find a way to generate a single jar which uses the 'tests' classifier 
+					and contains everything -->
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-codequality</artifactId>
+					<version>${ent-common-codequality.version}</version>
+					<classifier>tests</classifier>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-codequality</artifactId>
+					<version>${ent-common-codequality.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+
+		</profile>
+
+		<profile>
+			<id>BOM-build</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>../common-bom</module>
+				<module>../domain-bom</module>
+				<module>../ent-int-bom</module>
+				<module>../ent-spec-bom</module>
+				<module>../ent-test-bom</module>
+				<module>../gateway-bom</module>
+				<module>../kernel-bom</module>
+				<module>../myob-bom</module>
+				<module>../payments-bom</module>
+				<module>../perpetual-bom</module>
+				<module>../third-party-bom</module>
+				<module>../the-others-bom</module>
+				<module>../common-int-bom</module>
+				<module>../client-int-bom</module>
+				<module>../service-int-bom</module>
+				<module>../jpa-bom</module>
+				<module>../ssis-bom</module>
+				<module>../sbr-bom</module>
+			</modules>
+		</profile>
+
+
+		<profile>
+			<id>goed-build</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+			</modules>
+		</profile>
+
+		<!-- Not used, can delete this? -->
+		<!-- <profile> -->
+
+		<!-- <id>perpetual-build</id> -->
+		<!-- <activation> -->
+		<!-- <activeByDefault>false</activeByDefault> -->
+		<!-- </activation> -->
+		<!-- <modules> -->
+		<!-- jars -->
+		<!-- <module>ent-super-pom</module> -->
+
+		<!-- <module>../ent-common-util-rest</module> -->
+		<!-- <module>../ent-bis-common</module> -->
+		<!-- <module>../ent-bis-rollover-common</module> -->
+		<!-- <module>../ent-bis-email-messaging</module> -->
+		<!-- <module>../ent-bis-rollover-data</module> -->
+		<!-- <module>../ent-bis-rollover-translators</module> -->
+
+		<!-- <module>../perpetual-int-rollover-api</module> -->
+		<!-- <module>../perpetual-int-rollover-common</module> -->
+
+		<!-- wars -->
+		<!-- <module>../ent-bis-rollover-in</module> -->
+		<!-- <module>../perpetual-int-rollovers-in</module> -->
+		<!-- <module>../perpetual-int-rollovers-out</module> -->
+		<!-- <module>../perpetual-int-rollovers-out-mock-server</module> -->
+
+		<!-- zip -->
+		<!-- <module>../perpetual-queue-build</module> -->
+		<!-- </modules> -->
+		<!-- <dependencies> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>au.com.goed</groupId> -->
+		<!-- <artifactId>ent-spec-rest-generator-plugin</artifactId> -->
+		<!-- <version>1.0.0</version> -->
+		<!-- </dependency> -->
+		<!-- </dependencies> -->
+		<!-- </profile> -->
+
+		<profile>
+
+			<id>integrationtest</id>
+
+			<build>
+				<plugins>
+
+					<!-- runs up a local Tomcat instance and deploys the project to it -->
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+
+						<executions>
+
+							<execution>
+								<id>startTomcat</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+							</execution>
+
+							<execution>
+								<id>stopTomcat</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+
+						</executions>
+
+						<configuration>
+
+							<container>
+								<containerId>tomcat7x</containerId>
+								<zipUrlInstaller>
+									<url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.37/bin/apache-tomcat-7.0.37-windows-x64.zip</url>
+								</zipUrlInstaller>
+							</container>
+
+							<configuration>
+								<properties>
+									<cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+
+									<cargo.datasource.datasource.applicationConfigDataSource>cargo.datasource.jndi=jdbc/applicationConfigDataSource|
+										cargo.datasource.driver=oracle.jdbc.OracleDriver|
+										cargo.datasource.url=${cargo.datasource.url}|
+										cargo.datasource.username=${cargo.datasource.username}|
+										cargo.datasource.password=${cargo.datasource.password}</cargo.datasource.datasource.applicationConfigDataSource>
+
+									<cargo.resource.resource.applicationEnvironment>cargo.resource.name=applicationEnvironment|
+										cargo.resource.class=au.com.goed.enterprise.integration.common.crosscuts.util.StringValue|
+										cargo.resource.parameters=stringValue=${applicationEnvironment}</cargo.resource.resource.applicationEnvironment>
+								</properties>
+							</configuration>
+
+						</configuration>
+					</plugin>
+
+					<!-- runs integration tests -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.17</version>
+
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+			<properties>
+				<cargo.servlet.port>Must be overridden in project POM</cargo.servlet.port>
+				<cargo.tomcat.ajp.port>Must be overridden in project POM</cargo.tomcat.ajp.port>
+
+				<cargo.datasource.url>Must be overridden in project POM</cargo.datasource.url>
+				<cargo.datasource.username>Must be overridden in project POM</cargo.datasource.username>
+				<cargo.datasource.password>Must be overridden in project POM</cargo.datasource.password>
+
+				<applicationEnvironment>BAMBOO</applicationEnvironment>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>versions</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>${versions-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>displayVersionInfo</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>display-dependency-updates</goal>
+									<goal>display-plugin-updates</goal>
+									<goal>display-property-updates</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+
+			</build>
+
+		</profile>
+
+		<!-- LIQUIBASE -->
+
+
+
+		<!-- DEV schema -->
+
+		<profile>
+
+			<id>dev.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>false</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.dev.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dev.alias}</contexts>
+							<propertyFile>${liquibase-dev-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>dev_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>dev.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>false</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.dev.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dev.alias}</contexts>
+							<propertyFile>${liquibase-dev-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/dev_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>dev.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase. Allowing since this is a dev build ...</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>false</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<logging>debug</logging>
+							<expressionVariables>
+								<environmentAlias>${environment.dev.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dev.alias}</contexts>
+							<propertyFile>${liquibase-dev-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/dev_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- DEV schema -->
+
+		<!-- INT schema -->
+		<profile>
+
+			<id>int.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.int.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.int.alias}</contexts>
+							<propertyFile>${liquibase-int-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>int_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>int.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.int.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.int.alias}</contexts>
+							<propertyFile>${liquibase-int-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/int_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>int.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.int.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.int.alias}</contexts>
+							<propertyFile>${liquibase-int-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/int_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- INT schema -->
+
+		<!-- QANG schema -->
+		<profile>
+
+			<id>qang.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.qang.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.qang.alias}</contexts>
+							<propertyFile>${liquibase-qang-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>qang_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>qang.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.qang.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.qang.alias}</contexts>
+							<propertyFile>${liquibase-qang-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/qang_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>qang.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.qang.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.qang.alias}</contexts>
+							<propertyFile>${liquibase-qang-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/qang_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- QANG schema -->
+
+		<!-- UAT schema -->
+		<profile>
+
+			<id>uat.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.uat.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.uat.alias}</contexts>
+							<propertyFile>${liquibase-uat-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>uat_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>uat.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.uat.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.uat.alias}</contexts>
+							<propertyFile>${liquibase-uat-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/uat_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>uat.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.uat.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.uat.alias}</contexts>
+							<propertyFile>${liquibase-uat-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/uat_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- UAT schema -->
+
+		<!-- SANDPIT schema -->
+		<profile>
+
+			<id>sandpit.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.sandpit.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.sandpit.alias}</contexts>
+							<propertyFile>${liquibase-sandpit-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>sandpit_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>sandpit.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.sandpit.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.sandpit.alias}</contexts>
+							<propertyFile>${liquibase-sandpit-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/sandpit_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>sandpit.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.sandpit.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.sandpit.alias}</contexts>
+							<propertyFile>${liquibase-sandpit-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/sandpit_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- SANDPIT schema -->
+
+		<!-- DR schema -->
+		<profile>
+
+			<id>dr.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.dr.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dr.alias}</contexts>
+							<propertyFile>${liquibase-dr-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>dr_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>dr.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.dr.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dr.alias}</contexts>
+							<propertyFile>${liquibase-dr-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/dr_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>dr.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.dr.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.dr.alias}</contexts>
+							<propertyFile>${liquibase-dr-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/dr_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- DR schema -->
+
+		<!-- PROD schema -->
+		<profile>
+
+			<id>prod.liquibase.tag</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.prod.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.prod.alias}</contexts>
+							<propertyFile>${liquibase-prod-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>tagLiquibase</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>tag</goal>
+								</goals>
+								<configuration>
+									<tag>prod_${project.artifactId}_${project.version}_${BambooBuildNumber}</tag>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>tag</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>prod.liquibase.generateSQL</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.prod.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.prod.alias}</contexts>
+							<propertyFile>${liquibase-prod-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>updateApplicationSql</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>updateSQL</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/prod_app_${project.artifactId}_${project.version}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.liquibase.ext</groupId>
+								<artifactId>liquibase-nochangelogupdate</artifactId>
+								<version>${liquibase-nochangelogupdate.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>updateSQL</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+
+
+		<profile>
+
+			<id>prod.liquibase.sync</id>
+
+			<build>
+
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>${maven-enforcer-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>enforce-property</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>BambooBuildNumber</property>
+											<message>You should be building on the bamboo box to use
+												liquibase!</message>
+											<regex>.+</regex>
+											<regexMessage>You should be building on the bamboo box to use
+												liquibase!</regexMessage>
+										</requireProperty>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-maven-plugin</artifactId>
+						<version>${liquibase-maven-plugin.version}</version>
+
+						<configuration>
+							<expressionVariables>
+								<environmentAlias>${environment.prod.alias}</environmentAlias>
+							</expressionVariables>
+							<contexts>${environment.prod.alias}</contexts>
+							<propertyFile>${liquibase-prod-plugin-properties.resource}</propertyFile>
+							<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+						</configuration>
+						<executions>
+
+							<execution>
+								<id>updateChangeLog</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>changelogSyncSQL</goal>
+									<goal>changelogSync</goal>
+								</goals>
+								<configuration>
+									<migrationSqlOutputFile>${liquibase-migration-sql.directory}/prod_changelog_${project.artifactId}.sql</migrationSqlOutputFile>
+								</configuration>
+							</execution>
+
+						</executions>
+					</plugin>
+
+				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<!--This plugin's configuration is used to store Eclipse m2e settings 
+							only. It has no influence on the Maven build itself. -->
+						<plugin>
+							<groupId>org.eclipse.m2e</groupId>
+							<artifactId>lifecycle-mapping</artifactId>
+							<version>${lifecycle-mapping-plugin.version}</version>
+							<configuration>
+								<lifecycleMappingMetadata>
+									<pluginExecutions>
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>
+													org.liquibase
+												</groupId>
+												<artifactId>
+													liquibase-maven-plugin
+												</artifactId>
+												<versionRange>
+													[3.2.2,)
+												</versionRange>
+												<goals>
+													<goal>changelogSyncSQL</goal>
+													<goal>changelogSync</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore />
+											</action>
+										</pluginExecution>
+									</pluginExecutions>
+								</lifecycleMappingMetadata>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+
+			</build>
+
+		</profile>
+		<!-- PROD schema -->
+
+		<!-- LIQUIBASE -->
+
+	</profiles>
+
+</project>

@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>common-bom</artifactId>
+	<version>1.0.12</version>
+	<packaging>pom</packaging>
+
+	<name>common-bom</name>
+
+	<scm>
+		<connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/common-bom-1.0.12</connection>
+		<developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/common-bom-1.0.12</developerConnection>
+		<url>http://url.of.browsable.repository.in.fisheye/tags/common-bom-1.0.12</url>
+	</scm>
+
+	<parent>
+		<groupId>au.com.goed</groupId>
+		<artifactId>super-pom</artifactId>
+		<version>1.0.15</version>
+	</parent>
+
+	<properties>
+		<ent-common-util-util.version>0.0.12</ent-common-util-util.version>
+		<ent-common-codequality.version>0.0.9</ent-common-codequality.version>
+		<ent-common-util-date-time-place.version>0.0.3</ent-common-util-date-time-place.version>
+		<ent-common-util-infrastructure-spring-config.version>0.0.3</ent-common-util-infrastructure-spring-config.version>
+		<ent-common-util-spring.version>0.0.13</ent-common-util-spring.version>
+		<ent-common-file-producer.version>0.0.1</ent-common-file-producer.version>
+
+		<ent-common-util-bean.version>0.0.3</ent-common-util-bean.version>
+		<ent-common-util-exception.version>0.0.3</ent-common-util-exception.version>
+		<ent-common-util-fetcher.version>0.0.2</ent-common-util-fetcher.version>
+		<ent-common-util-functional.version>0.0.3</ent-common-util-functional.version>
+		<ent-common-util-merge.version>0.0.7</ent-common-util-merge.version>
+		<ent-common-util-validation.version>0.0.5</ent-common-util-validation.version>
+		<ent-common-util-builder.version>0.0.13</ent-common-util-builder.version>
+		<ent-common-util-file-reader.version>0.0.4</ent-common-util-file-reader.version>
+		<ent-common-util-test.version>0.0.2</ent-common-util-test.version>
+
+	</properties>
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-rest</artifactId>
+				<version>${ent-common-util-rest.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-util</artifactId>
+				<version>${ent-common-util-util.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-codequality</artifactId>
+				<version>${ent-common-codequality.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-date-time-place</artifactId>
+				<version>${ent-common-util-date-time-place.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-infrastructure-spring-config</artifactId>
+				<version>${ent-common-util-infrastructure-spring-config.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-spring</artifactId>
+				<version>${ent-common-util-spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-file-producer</artifactId>
+				<version>${ent-common-file-producer.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-bean</artifactId>
+				<version>${ent-common-util-bean.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-exception</artifactId>
+				<version>${ent-common-util-exception.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-fetcher</artifactId>
+				<version>${ent-common-util-fetcher.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-functional</artifactId>
+				<version>${ent-common-util-functional.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-merge</artifactId>
+				<version>${ent-common-util-merge.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-validation</artifactId>
+				<version>${ent-common-util-validation.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-builder</artifactId>
+				<version>${ent-common-util-builder.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-file-reader</artifactId>
+				<version>${ent-common-util-file-reader.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-test</artifactId>
+				<version>${ent-common-util-test.version}</version>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
+
+</project>
+
+
+
+

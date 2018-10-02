@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>au.com.goed</groupId>
+		<artifactId>super-pom</artifactId>
+		<version>1.0.11</version>
+	</parent>
+
+	<artifactId>domain-bom</artifactId>
+	<version>3.0.1</version>
+	<packaging>pom</packaging>
+	
+	<scm>
+		<connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/domain-bom-3.0.1</connection>
+		<developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/domain-bom-3.0.1</developerConnection>
+		<url>http://url.of.browsable.repository.in.fisheye/tags/domain-bom-3.0.1</url>
+	</scm>
+	
+	<properties>
+	
+		<!-- Versions -->
+		<ent-spec-bis-common-domain-api.version>3.0.0</ent-spec-bis-common-domain-api.version>
+		<!-- Versions -->
+	
+	</properties>
+	
+	<dependencyManagement>
+	
+		<dependencies>
+		
+			<dependency>
+			
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-common-domain-api</artifactId>
+				<version>${ent-spec-bis-common-domain-api.version}</version>
+			
+			</dependency>
+		
+		</dependencies>
+	
+	</dependencyManagement>
+	
+</project>

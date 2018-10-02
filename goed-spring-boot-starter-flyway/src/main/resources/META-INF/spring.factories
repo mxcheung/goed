@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-au.com.goed.starter.flyway.FlyWayConfiguration

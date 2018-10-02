@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>super-pom</artifactId>
+        <groupId>au.com.goed</groupId>
+        <version>1.0.4</version>
+    </parent>
+    
+    <artifactId>jpa-bom</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    
+    <scm>
+        <connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/jpa-bom-1.0.0</connection>
+        <developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/jpa-bom-1.0.0</developerConnection>
+        <url>http://url.of.browsable.repository.in.fisheye/${project.artifactId}/tags/jpa-bom-1.0.0</url>
+    </scm>
+    
+    <properties>
+
+        <goed-group.id>au.com.goed</goed-group.id>
+
+        <!-- Versions -->
+        <ent-common-jpa-entities.version>0.0.5</ent-common-jpa-entities.version>
+        <!-- Versions -->
+
+    </properties>
+    
+    <dependencyManagement>
+    
+        <dependencies>
+        
+            <dependency>
+                <groupId>${goed-group.id}</groupId>
+                <artifactId>ent-common-jpa-entities</artifactId>
+                <version>${ent-common-jpa-entities.version}</version>
+            </dependency>
+            
+        </dependencies>
+    
+    </dependencyManagement>
+    
+</project>

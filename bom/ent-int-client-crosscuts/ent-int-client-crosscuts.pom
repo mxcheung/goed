@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>au.com.goed</groupId>
+        <artifactId>super-pom</artifactId>
+        <version>1.0.15</version>
+    </parent>
+
+	<artifactId>ent-int-client-crosscuts</artifactId>
+	<version>0.0.20</version>
+	<packaging>jar</packaging>
+
+	<name>Cross-cutting items for clients</name>
+	<url>http://maven.apache.org</url>
+
+	<scm>
+		<connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/ent-int-client-crosscuts-0.0.20</connection>
+		<developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/ent-int-client-crosscuts-0.0.20</developerConnection>
+		<url>http://url.of.browsable.repository.in.fisheye/tags/ent-int-client-crosscuts-0.0.20</url>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- BOMs -->
+        <third-party-bom.version>1.0.6</third-party-bom.version>
+        <spec-framework-bom.version>1.0.0</spec-framework-bom.version>
+        <common-bom.version>1.0.12</common-bom.version>
+        <common-int-bom.version>0.0.2</common-int-bom.version>
+        <!-- BOMs -->
+
+		<!-- temp -->
+		<minimum.test.coverage.totalLineRate>5</minimum.test.coverage.totalLineRate>
+		<minimum.test.coverage.totalBranchRate>2</minimum.test.coverage.totalBranchRate>
+
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>au.com.goed</groupId>
+			<artifactId>ent-spec-common-client-framework</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>au.com.goed</groupId>
+			<artifactId>ent-int-common-crosscuts</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>au.com.goed</groupId>
+			<artifactId>ent-common-util-date-time-place</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>au.com.goed</groupId>
+			<artifactId>ent-common-util-util</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
+        <!-- Test -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		  <groupId>au.com.goed</groupId>
+		  <artifactId>ent-common-codequality</artifactId>
+		  <scope>test</scope>
+		</dependency>
+		<!-- Test -->
+
+	</dependencies>
+	
+	<dependencyManagement>
+	
+	   <dependencies>
+	   
+	       <dependency>
+	           <groupId>au.com.goed</groupId>
+	           <artifactId>third-party-bom</artifactId>
+	           <version>${third-party-bom.version}</version>
+	           <type>pom</type>
+	           <scope>import</scope>
+	       </dependency>
+	       
+	       <dependency>
+               <groupId>au.com.goed</groupId>
+               <artifactId>spec-framework-bom</artifactId>
+               <version>${spec-framework-bom.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>
+	       
+	       <dependency>
+               <groupId>au.com.goed</groupId>
+               <artifactId>common-bom</artifactId>
+               <version>${common-bom.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>
+           
+           <dependency>
+               <groupId>au.com.goed</groupId>
+               <artifactId>common-int-bom</artifactId>
+               <version>${common-int-bom.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>
+	   
+	   </dependencies>
+	
+	</dependencyManagement>
+
+</project>
