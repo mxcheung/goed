@@ -1,5 +1,5 @@
 # goed
-| Component  | Dependendice | Comments |
+| Component  | Dependencies | Comments |
 | ------------- | ------------- | ------------- |
 | goed-starter-profiles-constants  | N/A |  Content Cell |
 | goed-spring-boot-starter-web | goed-starter-profiles-constants   | Predefined profiled annotations and constants for use across all projects |
