@@ -1,0 +1,2397 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- ================================================================================== -->
+	<!-- WELCOME TO THE GOED SUPERPOM -->
+	<!-- ================================================================================== -->
+
+	<!-- How to use the ent-super-pom: -->
+
+	<!-- This is a MUST READ! -->
+
+	<!-- First off we are now using Dependency Management. -->
+
+	<!-- The version of a dependency should be a -->
+	<!-- eg <apache.commons.collections.version>3.2</apache.commons.collections.version>. -->
+
+	<!-- In your children POMs, add your dependencies as needed but you should 
+		only need the GroupId and artifactid if its a jar. The version is handled 
+		by the dependency management here. -->
+	<!-- Please name version property {artifcatId}.version, that -->
+	<!-- way we wont have duplicate versions. -->
+
+	<!-- If you HAVE to use a version in your -->
+	<!-- child pom that is different than the ent-super-pom then you can override -->
+	<!-- in that child pom, BUT add some documentation as to why or it will 
+		fail code review. -->
+	<!-- Please fail all code reviews that have a version in the child POM unless -->
+	<!-- there is some really documented good reason for it. Please don't add 
+		dependencies -->
+	<!-- to this ent-super-pom, it blows out the WAR size. -->
+
+	<!-- ================================================================================== -->
+
+	<groupId>au.com.goed</groupId>
+	<artifactId>ent-super-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>2.0.14</version>
+
+	<name>Goed Server</name>
+
+	<scm>
+		<connection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/ent-super-pom-2.0.14</connection>
+		<developerConnection>scm:svn:https://svn.nb.goed.com.au/Source/Goed/Goed/tags/ent-super-pom-2.0.14</developerConnection>
+		<url>http://url.of.browsable.repository.in.fisheye/tags/ent-super-pom-2.0.14</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>https://scnexus.goed.com.au/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>https://scnexus.goed.com.au/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+
+		<!-- ========================================== -->
+		<!-- The Goed Release Properties -->
+		<!-- ========================================== -->
+
+		<release>trunk</release>
+		<build.current.revision>$SVN_REVISION</build.current.revision>
+		<build.current.number>$BUILD_NUMBER</build.current.number>
+
+		<!-- ========================================== -->
+		<!-- Version Properties -->
+		<!-- ========================================== -->
+
+		<BambooBuildNumber>Must be passed as parameter to Bamboo build</BambooBuildNumber>
+		<SubversionRevisionNumber>Must be passed as parameter to Bamboo build</SubversionRevisionNumber>
+		<BambooBuildResultsURL>Must be passed as parameter to Bamboo build</BambooBuildResultsURL>
+
+		<!-- ================================== -->
+		<!-- The Specification Projects -->
+		<!-- ================================== -->
+
+		<!-- ================================== -->
+		<!-- Specification : Frameworks -->
+		<!-- ================================== -->
+		<ent-spec-rest-generator-plugin.version>1.0.0</ent-spec-rest-generator-plugin.version>
+		<ent-spec-rest-documentation-generator.version>1.0.3</ent-spec-rest-documentation-generator.version>
+		<ent-spec-common-framework.version>1.0.0</ent-spec-common-framework.version>
+		<ent-spec-common-server-framework.version>1.0.0</ent-spec-common-server-framework.version>
+		<ent-spec-common-client-framework.version>1.0.0</ent-spec-common-client-framework.version>
+
+		<!-- ================================== -->
+		<!-- Specification : Domain API -->
+		<!-- ================================== -->
+		<ent-spec-bis-common-domain-api.version>2.0.5</ent-spec-bis-common-domain-api.version>
+
+		<!-- ================================== -->
+		<!-- Specification : Rollovers -->
+		<!-- ================================== -->
+		<ent-spec-bis-rollovers-api.version>0.0.3</ent-spec-bis-rollovers-api.version>
+		<ent-spec-int-rollovers-api.version>0.0.2</ent-spec-int-rollovers-api.version>
+
+
+		<!-- Crosscuts -->
+		<ent-int-common-crosscuts.version>0.0.2</ent-int-common-crosscuts.version>
+
+		<!-- ================================== -->
+		<!-- Specification : SOA Services -->
+		<!-- ================================== -->
+
+		<!-- Validation -->
+		<ent-spec-bis-validation-api.version>2.0.1</ent-spec-bis-validation-api.version>
+
+		<!-- Payments -->
+		<ent-spec-bis-payments-api.version>2.0.1</ent-spec-bis-payments-api.version>
+		<ent-spec-bis-banking-api.version>2.0.1</ent-spec-bis-banking-api.version>
+		<ent-spec-bis-banking-admin-api.version>2.0.1</ent-spec-bis-banking-admin-api.version>
+
+		<!-- Funds Service -->
+		<ent-spec-bis-funds-service-api.version>2.0.3</ent-spec-bis-funds-service-api.version>
+		<ent-bis-funds-service.version>0.0.1</ent-bis-funds-service.version>
+		<ent-funds-service-web.version>0.0.1</ent-funds-service-web.version>
+
+		<!-- CTS -->
+		<ent-spec-bis-contribution-transaction-service-api.version>2.0.2</ent-spec-bis-contribution-transaction-service-api.version>
+
+		<!-- Content Repository Service -->
+		<ent-spec-bis-content-repository-service-api.version>2.0.1</ent-spec-bis-content-repository-service-api.version>
+
+		<!-- Employer Service -->
+		<ent-spec-bis-employer-service-api.version>2.0.1</ent-spec-bis-employer-service-api.version>
+
+		<!-- Member Service -->
+		<ent-spec-bis-member-service-api.version>2.0.1</ent-spec-bis-member-service-api.version>
+
+		<!-- ================================== -->
+		<!-- Specification : BARBRAH -->
+		<!-- ================================== -->
+
+		<ent-spec-int-contribution-api.version>2.0.1</ent-spec-int-contribution-api.version>
+		<ent-spec-int-member-api.version>2.0.1</ent-spec-int-member-api.version>
+		<ent-spec-int-combintation-api.version>2.0.1</ent-spec-int-combintation-api.version>
+		<ent-spec-int-analytics-api.version>2.0.1</ent-spec-int-analytics-api.version>
+		<ent-spec-int-contributions-schematron-api.version>2.0.1</ent-spec-int-contributions-schematron-api.version>
+		<ent-spec-int-is-registration-api.version>2.0.1</ent-spec-int-is-registration-api.version>
+		<!-- ================================== -->
+		<!-- Specification : Integrations -->
+		<!-- ================================== -->
+
+		<ent-spec-int-tfn-api.version>2.0.1</ent-spec-int-tfn-api.version>
+
+		<!-- ================================== -->
+		<!-- Specification : Customers -->
+		<!-- ================================== -->
+		<ent-spec-customer-int-supergate-generic-xml-api.version>2.0.1</ent-spec-customer-int-supergate-generic-xml-api.version>
+		<ent-spec-customer-int-supergate-xml-xbrl-api.version>2.0.1</ent-spec-customer-int-supergate-xml-xbrl-api.version>
+		<ent-spec-customer-int-supergate-exclusive-xml-api.version>2.0.0</ent-spec-customer-int-supergate-exclusive-xml-api.version>
+		<ent-spec-customer-int-supergate-acurity-xml-api.version>1.0.0</ent-spec-customer-int-supergate-acurity-xml-api.version>
+		<ent-spec-customer-int-supergate-acknowledgement-xml-api.version>1.0.2</ent-spec-customer-int-supergate-acknowledgement-xml-api.version>
+
+		<myob-spec-int-contributions-api.version>0.0.2</myob-spec-int-contributions-api.version>
+		<qsuper-spec-int-contributions-api.version>0.0.1</qsuper-spec-int-contributions-api.version>
+
+		<!-- ========================================== -->
+		<!-- Test Utilities -->
+		<!-- ========================================== -->
+
+		<!-- CORE TEST PROJECTS -->
+		<ent-common-util-mockito-test.version>0.0.1</ent-common-util-mockito-test.version>
+		<ent-test-automation-common.version>0.0.1-SNAPSHOT</ent-test-automation-common.version>
+
+		<!-- ========================================== -->
+		<!-- Goed Projects -->
+		<!-- ========================================== -->
+
+		<CommonCore.version>0.0.3</CommonCore.version>
+		<Commons.version>0.0.2-SNAPSHOT</Commons.version>
+		<ent-bis-common.version>0.0.2-SNAPSHOT</ent-bis-common.version>
+		<ent-bis-email-messaging.version>0.0.1-SNAPSHOT</ent-bis-email-messaging.version>
+		<ent-bis-fund-admin-time-rules.version>0.0.2-SNAPSHOT</ent-bis-fund-admin-time-rules.version>
+		<ent-bis-fvs.version>0.0.1-SNAPSHOT</ent-bis-fvs.version>
+		<ent-bis-rollover-common.version>0.0.2-SNAPSHOT</ent-bis-rollover-common.version>
+		<ent-bis-rollover-data.version>0.0.1-SNAPSHOT</ent-bis-rollover-data.version>
+		<ent-bis-rollover-translators.version>0.0.1-SNAPSHOT</ent-bis-rollover-translators.version>
+		<ent-common-util-rest.version>0.0.2-SNAPSHOT</ent-common-util-rest.version>
+
+		<ent-api-super-tic-lodgement.version>0.0.3-SNAPSHOT</ent-api-super-tic-lodgement.version>
+		<ent-sbr-domain.version>0.0.1-SNAPSHOT</ent-sbr-domain.version>
+
+		<ent-util-super-tic-xbrl.version>0.0.3-SNAPSHOT</ent-util-super-tic-xbrl.version>
+		<int-sbr-service.version>0.0.1-SNAPSHOT</int-sbr-service.version>
+
+		<ent-util-log4j.version>0.0.2-SNAPSHOT</ent-util-log4j.version>
+		<ent-common-codequality.version>0.0.8</ent-common-codequality.version>
+		<ent-common-util-date-time-place.version>0.0.3</ent-common-util-date-time-place.version>
+		<ent-common-util-infrastructure-spring-config.version>0.0.2</ent-common-util-infrastructure-spring-config.version>
+		<ent-common-util-spring.version>0.0.13</ent-common-util-spring.version>
+		<ent-common-util-util.version>0.0.11</ent-common-util-util.version>
+		<ent-contribution-transaction-service-web.version>0.0.1</ent-contribution-transaction-service-web.version>
+		<ent-int-contribution-transaction-service-dao.version>0.0.1</ent-int-contribution-transaction-service-dao.version>
+		<ent-contribution-transaction-service-common.version>0.0.1</ent-contribution-transaction-service-common.version>
+		<ent-common-file-producer.version>0.0.1</ent-common-file-producer.version>
+
+		<ent-bis-email-service.version>2.0.5-SNAPSHOT</ent-bis-email-service.version>
+
+		<SC-DBCP.version>0.0.2-SNAPSHOT</SC-DBCP.version>
+		<ent-kernel-domain.version>0.0.3-SNAPSHOT</ent-kernel-domain.version>
+		<sctomcat.version>0.0.1-SNAPSHOT</sctomcat.version>
+		<supergate.xml.version>0.0.1-SNAPSHOT</supergate.xml.version>
+		<not-KIVA.version>0.0.1-SNAPSHOT</not-KIVA.version>
+		<PayrollWizard.version>0.0.1-SNAPSHOT</PayrollWizard.version>
+		<SuperStreamXBRL.version>0.0.1-SNAPSHOT</SuperStreamXBRL.version>
+		<AmpXBRL.version>0.0.1-SNAPSHOT</AmpXBRL.version>
+		<GenericXBRL.version>0.0.1-SNAPSHOT</GenericXBRL.version>
+		<SuperGateXML.version>0.0.1-SNAPSHOT</SuperGateXML.version>
+		<AnzSmartChoiceXML.version>0.0.1-SNAPSHOT</AnzSmartChoiceXML.version>
+		<sc-domainmodel.version>0.0.1-SNAPSHOT</sc-domainmodel.version>
+
+
+		<!-- Gateway -->
+		<gatewaybridge.version>0.0.2-SNAPSHOT</gatewaybridge.version>
+		<gatewaymsgmaker.version>0.0.2-SNAPSHOT</gatewaymsgmaker.version>
+		<gatewayrouter.version>0.0.2-SNAPSHOT</gatewayrouter.version>
+		<gatewayrouterui.version>0.0.2-SNAPSHOT</gatewayrouterui.version>
+
+
+
+		<!-- AS4/Axway Message Service -->
+		<ent-common-msg-service-as4.version>0.0.2-SNAPSHOT</ent-common-msg-service-as4.version>
+		<ent-common-msg-service-as4-axway.version>0.0.2-SNAPSHOT</ent-common-msg-service-as4-axway.version>
+
+		<!-- Custom enterprisdt -->
+		<edtftpj-pro.version>1.2.7</edtftpj-pro.version>
+		<license.version>1.2.7</license.version>
+
+		<!-- Perpetual -->
+		<perpetual-int-rollover-common.version>0.0.1-SNAPSHOT</perpetual-int-rollover-common.version>
+		<perpetual-int-rollover-api.version>0.0.1-SNAPSHOT</perpetual-int-rollover-api.version>
+
+		<!-- MyOB -->
+		<myob-int-contribution-services.version>0.0.4</myob-int-contribution-services.version>
+		<myob-int-jpa-entities.version>0.0.1</myob-int-jpa-entities.version>
+		<myob-int-contribution-dao.version>0.0.2</myob-int-contribution-dao.version>
+		<myob-test-message-generator.version>0.0.1</myob-test-message-generator.version>
+		<ent-test-harness.version>0.0.1</ent-test-harness.version>
+
+		<!-- Payments -->
+		<ent-bis-payments.version>0.0.1-SNAPSHOT</ent-bis-payments.version>
+		<ent-bis-payments-service.version>0.0.1-SNAPSHOT</ent-bis-payments-service.version>
+		<ent-int-payments-anz-aba-file.version>0.0.1-SNAPSHOT</ent-int-payments-anz-aba-file.version>
+		<ent-bis-payments-common.version>0.0.1-SNAPSHOT</ent-bis-payments-common.version>
+		<ent-bis-payments-notification.version>0.0.1-SNAPSHOT</ent-bis-payments-notification.version>
+
+		<!-- Kernel -->
+		<kernel-int-contribution-service.version>0.0.1-SNAPSHOT</kernel-int-contribution-service.version>
+		<kernel-int-contribution-service-domain.version>0.0.2-SNAPSHOT</kernel-int-contribution-service-domain.version>
+		<kernel-int-contribution-service-api.version>0.0.3-SNAPSHOT</kernel-int-contribution-service-api.version>
+		<kernel-common-util-xml.version>0.0.2-SNAPSHOT</kernel-common-util-xml.version>
+
+		<!-- Persistence: Database JDBC Drivers -->
+
+		<oracle.version>11.0.2.3</oracle.version>
+		<ons.version>11.0.1.7</ons.version>
+		<hsqldb.version>2.2.8</hsqldb.version>
+		<!-- Used for mock/unit testing -->
+		<h2.version>1.3.174</h2.version>
+
+		<!-- Persistence: Object Relational Mappers -->
+
+		<hibernate.version>4.2.6.Final</hibernate.version>
+		<hibernate-commons-annotations.version>4.0.2.Final</hibernate-commons-annotations.version>
+		<hibernate-jpa-2.0-api.version>1.0.1.Final</hibernate-jpa-2.0-api.version>
+		<hibernate-validator.version>4.3.0.Final</hibernate-validator.version>
+		<hibernate-jpamodelgen.version>1.3.0.Final</hibernate-jpamodelgen.version>
+
+		<persistence.version>1.0.2</persistence.version>
+
+		<!-- Temporary until Gateway Messaging Domain Model is persisted via JPA -->
+		<datanucleus.api.jpa.version>3.2.0-release</datanucleus.api.jpa.version>
+		<datanucleus.api.jdo.version>3.2.0-release</datanucleus.api.jdo.version>
+		<datanucleus.rdbms.version>3.2.0-release</datanucleus.rdbms.version>
+		<datanucleus.core.version>3.2.1</datanucleus.core.version>
+		<datanucleus.maven.plugin.version>3.3.0-release</datanucleus.maven.plugin.version>
+		<jdo.api.version>3.0</jdo.api.version>
+
+		<jta.version>1.1</jta.version>
+
+		<!-- Persistence: ORM agnostic wrappers -->
+		<expojo_core.version>2.2.1</expojo_core.version>
+		<expojo_jdo.version>2.2.1</expojo_jdo.version>
+
+		<!-- Other 3rd Party -->
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.7</jdk.version>
+		<downloadSources>true</downloadSources>
+		<cglib.version>2.2.2</cglib.version>
+
+		<activation.version>1.0.2</activation.version>
+		<apache.commons.codec.version>1.6</apache.commons.codec.version>
+		<apache.commons.collections.version>3.2</apache.commons.collections.version>
+		<apache.commons.dbcp.version>1.4</apache.commons.dbcp.version>
+		<apache.commons.io.version>2.4</apache.commons.io.version>
+		<apache.commons.pool.version>1.4</apache.commons.pool.version>
+		<apache.commons.validator.version>1.4.0</apache.commons.validator.version>
+		<apache.commons.version>3.1</apache.commons.version>
+		<apache.commons-httpclient>3.1</apache.commons-httpclient>
+		<apache-httpclient-fc.version>4.3.2</apache-httpclient-fc.version>
+		<apache-log4j-extras.version>1.0</apache-log4j-extras.version>
+		<apache-tiles.version>2.1.4</apache-tiles.version>
+		<apache-wicket.version>6.8.0</apache-wicket.version>
+
+		<aspectj.version>1.6.12</aspectj.version>
+		<avalon-framework-api.version>4.2.0</avalon-framework-api.version>
+
+		<batik-all.version>1.6</batik-all.version>
+		<bcprov-ext-jdk16.version>1.45</bcprov-ext-jdk16.version>
+
+		<com.ibm.mq.version>7.5.0.0</com.ibm.mq.version>
+		<com.ibm.mq.jmqi.version>7.5.0.0</com.ibm.mq.jmqi.version>
+		<commons-discovery.version>0.2</commons-discovery.version>
+		<commons-fileupload.version>1.2.2</commons-fileupload.version>
+		<commons-logging.version>1.0.4</commons-logging.version>
+		<commons-logging-api.version>1.0.4</commons-logging-api.version>
+		<commons-lang.version>2.6</commons-lang.version>
+
+		<axis.version>1.4</axis.version>
+		<axis-jaxrpc.version>1.4</axis-jaxrpc.version>
+		<axis-wsdl4j.version>1.5.1</axis-wsdl4j.version>
+
+		<dom4j.version>1.6.1</dom4j.version>
+		<freemarker.version>2.3.19</freemarker.version>
+		<fop.version>0.94</fop.version>
+
+		<groovy-all.version>1.8.6</groovy-all.version>
+
+		<hamcrest-all.version>1.3</hamcrest-all.version>
+
+		<jackson-core.version>2.2.3</jackson-core.version>
+		<jackson-core-asl.version>1.9.7</jackson-core-asl.version>
+		<jackson-databind.version>2.2.2</jackson-databind.version>
+		<jackson-mapper-asl.version>1.9.7</jackson-mapper-asl.version>
+		<jackson-annotations.version>2.0.4</jackson-annotations.version>
+		<javax.mail.version>1.4.7</javax.mail.version>
+		<!-- <javax.validation.version>1.0.0.GA</javax.validation.version> -->
+		<javax.validation.version>1.1.0.Final</javax.validation.version>
+		<jasper.version>7.0.26</jasper.version>
+		<jodatime.version>2.2</jodatime.version>
+		<joda-time.version>2.2</joda-time.version>
+		<jstl.version>1.2</jstl.version>
+		<jsr173_api.version>1.0</jsr173_api.version>
+		<jsp-api.version>2.1</jsp-api.version>
+		<jsp-api.org.apache.tomcat.version>7.0.26</jsp-api.org.apache.tomcat.version>
+		<juel-api.version>2.2.6</juel-api.version>
+		<juel-impl.version>2.2.6</juel-impl.version>
+
+		<junit.version>4.11</junit.version>
+
+		<log4j.version>1.2.17</log4j.version>
+
+		<maven-site-plugin.version>3.3</maven-site-plugin.version>
+		<maven-plugin-api.version>2.0</maven-plugin-api.version>
+		<mockito.version>1.9.5</mockito.version>
+
+		<net.sf.jsr107cache.version>1.1</net.sf.jsr107cache.version>
+
+
+		<org.functionaljava.functionaljava.version>3.1</org.functionaljava.functionaljava.version>
+		<org.jdom.version>2.0.2</org.jdom.version>
+
+		<saxon-version>9.1.0.8j</saxon-version>
+
+		<!-- servlet-api.scope is used for the asembly projetcs, please dont change 
+			it or you will break queues. -->
+
+		<servlet-api.version>2.5</servlet-api.version>
+		<servlet-api.scope>provided</servlet-api.scope>
+
+		<!-- Change at your own risk, this legacy jar is in our 3rd party repoistory 
+			as I don't actually know what flavour it is. ie apache portals, servicemix, 
+			coccon etc -->
+		<serializer.version>2.7.0</serializer.version>
+
+		<skipTests>false</skipTests>
+		<slf4j.version>1.7.5</slf4j.version>
+		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.data.version>1.4.2.RELEASE</spring.data.version>
+		<spring.integration.version>2.0.0.RELEASE</spring.integration.version>
+		<spring.ws.version>2.1.3.RELEASE</spring.ws.version>
+		<spring-security.version>3.0.2.RELEASE</spring-security.version>
+		<spring-webflow.version>2.3.2.RELEASE</spring-webflow.version>
+		<spring-retry.version>1.0.2.RELEASE</spring-retry.version>
+		<spring-batch.version>2.2.0.RELEASE</spring-batch.version>
+
+		<tomcat-servlet-api.version>7.0.26</tomcat-servlet-api.version>
+
+		<xalan.version>2.7.0</xalan.version>
+		<xmlschema.version>2.0.3</xmlschema.version>
+		<xercesImpl.version>2.7.1</xercesImpl.version>
+		<xml-apis.version>2.4.1</xml-apis.version>
+		<xmlgraphics-commons.version>1.2</xmlgraphics-commons.version>
+
+		<camel.version>2.13.1</camel.version>
+
+		<!-- ATO -->
+		<sbr-core-services-requester.version>1.1.0</sbr-core-services-requester.version>
+		<abr-security-token-manager.version>8.0.0</abr-security-token-manager.version>
+		<abr-auskey-manager-api.version>1.4.0.3</abr-auskey-manager-api.version>
+
+		<axiom-api.version>1.2.14</axiom-api.version>
+		<axiom-impl.version>1.2.14</axiom-impl.version>
+		<stax2-api.version>3.1.3</stax2-api.version>
+		<apache-mime4j-core.version>0.7.2</apache-mime4j-core.version>
+
+		<poi-ooxml.version>3.8</poi-ooxml.version>
+
+		<!-- PDF Renderer -->
+		<flying-saucer-pdf.version>9.0.4</flying-saucer-pdf.version>
+
+		<!-- Test Coverage Levels -->
+		<minimum.test.coverage.totalBranchRate>40</minimum.test.coverage.totalBranchRate>
+		<minimum.test.coverage.totalLineRate>40</minimum.test.coverage.totalLineRate>
+
+		<excluded.test.coverage.classes />
+		<excluded.test.coverage.classes.two />
+
+		<!-- Thread management utilities -->
+		<sasthreadutils.version>1.1</sasthreadutils.version>
+
+		<!-- Maven Plugin Versions -->
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-findbugs-plugin.version>2.5.3</maven-findbugs-plugin.version>
+		<maven-project-info-reports-plugin.version>2.4</maven-project-info-reports-plugin.version>
+
+		<!-- ====================================== -->
+		<!-- Third Party Plugin Libs -->
+		<!-- ====================================== -->
+
+		<!-- These plugins versions here exist to help support the code generation 
+			thats required for the various specification projects/modules that are across 
+			the enterprise. -->
+		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<maven-javadoc-plugin.version>2.8.1</maven-javadoc-plugin.version>
+		<maven-release-plugin.version>2.4.2</maven-release-plugin.version>
+		<maven-datanucleus-plugin.version>3.1.0-m3</maven-datanucleus-plugin.version>
+		<jaxb2-maven-plugin.version>1.5</jaxb2-maven-plugin.version>
+		<maven-scm-provider-svnjava-plugin.version>2.0.6</maven-scm-provider-svnjava-plugin.version>
+		<build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
+		<maven-jaxb2-plugin.version>0.8.3</maven-jaxb2-plugin.version>
+		<maven-bundle-plugin.version>2.4.0</maven-bundle-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<jaxb2-basics-plugin.version>0.6.0</jaxb2-basics-plugin.version>
+		<jaxb2-basics-annotate-plugin.version>0.6.0</jaxb2-basics-annotate-plugin.version>
+		<maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
+		<lifecycle-mapping-plugin.version>1.0.0</lifecycle-mapping-plugin.version>
+		<org.apache.servicemix.specs.saaj-api-1.3.version>1.2.0</org.apache.servicemix.specs.saaj-api-1.3.version>
+
+		<!-- findbugs -->
+
+		<findbugs.check.threshold>High</findbugs.check.threshold>
+		<findbugs.check.maxRank>4</findbugs.check.maxRank>	<!-- aka scariest -->
+
+		<findbugs.report.threshold>Low</findbugs.report.threshold>
+		<findbugs.report.maxRank>20</findbugs.report.maxRank>
+
+		<findbugs.annotations.version>2.0.3</findbugs.annotations.version>
+
+		<!-- ====================================== -->
+		<!-- JAXB utilities (see more below) -->
+		<!-- ====================================== -->
+		<krasa-jaxb-tools.version>1.1</krasa-jaxb-tools.version>
+
+		<glassfish.metro.version>2.3</glassfish.metro.version>
+
+		<!-- Unsorted -->
+
+		<Saxon-HE.version>9.5.0.2</Saxon-HE.version>
+		<javassist.version>3.18.1-GA</javassist.version>
+		<guava.version>17.0</guava.version>
+		<jaxb-api.version>2.1</jaxb-api.version>
+		<jmxri.version>1.2.1</jmxri.version>
+		<jms.version>1.1</jms.version>
+		<jmxtools.version>1.2.1</jmxtools.version>
+		<undertow-core.version>1.0.1.Final</undertow-core.version>
+		<commons-beanutils.version>20030211.134440</commons-beanutils.version>
+		<powermock-mockito-release-full.version>1.5</powermock-mockito-release-full.version>
+		<mockito-all.version>1.9.5</mockito-all.version>
+		<freemarker.version>2.3.20</freemarker.version>
+		<ent-common-util-sso.version>0.0.11</ent-common-util-sso.version>
+		<ent-common-jpa-entities.version>0.0.4-SNAPSHOT</ent-common-jpa-entities.version>
+		<ent-bis-payments-service.version>0.0.1-SNAPSHOT</ent-bis-payments-service.version>
+		<ent-spec-bis-banking-api.version>0.0.1-SNAPSHOT</ent-spec-bis-banking-api.version>
+		<ent-bis-banking-service-common.version>0.0.1-SNAPSHOT</ent-bis-banking-service-common.version>
+		<ent-spec-bis-banking-admin-api.version>0.0.1-SNAPSHOT</ent-spec-bis-banking-admin-api.version>
+		<web.styling.tags.version>0.0.1-SNAPSHOT</web.styling.tags.version>
+
+	</properties>
+
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<compilerArgument>-XDignore.symbol.file</compilerArgument>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>test-jar</id>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<BambooBuildNumber>${BambooBuildNumber}</BambooBuildNumber>
+							<BambooBuildResultsURL>${BambooBuildResultsURL}</BambooBuildResultsURL>
+							<SubversionRevisionNumber>${SubversionRevisionNumber}</SubversionRevisionNumber>
+							<MavenVersionNumber>${project.version}</MavenVersionNumber>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>${maven-release-plugin.version}</version>
+				<configuration>
+					<goals>install</goals>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle-mapping-plugin.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.datanucleus
+										</groupId>
+										<artifactId>
+											maven-datanucleus-plugin
+										</artifactId>
+										<versionRange>
+											[3.1.0-m3,)
+										</versionRange>
+										<goals>
+											<goal>enhance</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+
+				<!-- JAXB Maven plugin to generate JAXB objects from XSDs -->
+
+				<plugin>
+					<groupId>org.jvnet.jaxb2.maven2</groupId>
+					<artifactId>maven-jaxb2-plugin</artifactId>
+					<version>${maven-jaxb2-plugin.version}</version>
+
+					<!-- JH 24/01/2014: We are using this version because it will actually 
+						generate the code that we want. This decision due to this thread... http://stackoverflow.com/questions/2432859/difference-of-maven-jaxb-plugins -->
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>full-child-build</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>ent-bis-common</module>
+				<module>ent-bis-email-messaging</module>
+				<module>ent-bis-rollover-common</module>
+				<module>ent-bis-rollover-data</module>
+				<module>ent-bis-rollover-in</module>
+				<module>ent-bis-rollover-translators</module>
+				<module>ent-bis-validation-service</module>
+				<module>ent-bis-validation-service-build</module>
+				<module>ent-common-util-rest</module>
+				<module>ent-spec-rest-generator-plugin</module>
+				<module>ent-sbr-domain</module>
+				<!-- <module>perpetual-aggregate-pom</module> -->
+				<module>perpetual-int-rollover-api</module>
+				<module>perpetual-int-rollover-common</module>
+				<module>perpetual-int-rollovers-in</module>
+				<module>perpetual-int-rollovers-out</module>
+				<module>perpetual-int-rollovers-out-mock-server</module>
+				<module>perpetual-queue-build</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>deployer</id>
+
+			<build>
+				<plugins>
+
+					<!-- enables release process to tag builds in Subversion -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.8.1</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+							<username>username</username>
+							<password>password</password>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.4.2</version>
+						<configuration>
+							<providerImplementations>
+								<svn>javasvn</svn>
+							</providerImplementations>
+							<preparationGoals>clean install</preparationGoals>
+							<goals>deploy</goals>
+						</configuration>
+						<dependencies>
+							<dependency>
+								<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
+								<artifactId>maven-scm-provider-svnjava</artifactId>
+								<version>2.0.6</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+
+			<id>codequality</id>
+
+			<dependencies>
+
+				<!-- this enables the code quality tests to run automatically for any 
+					module that pulls in the super-pom There currently needs to be two dependencies 
+					: - one with classifier 'tests' - this is the one that the surefire plugin 
+					dependenciesToScan will find - one without the classifier 'tests' - this 
+					provides the (non-test) classes that the tests need in order to run I haven't 
+					been able to find a way to generate a single jar which uses the 'tests' classifier 
+					and contains everything -->
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-codequality</artifactId>
+					<version>${ent-common-codequality.version}</version>
+					<scope>test</scope>
+					<classifier>tests</classifier>
+				</dependency>
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-codequality</artifactId>
+					<version>${ent-common-codequality.version}</version>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-util-spring</artifactId>
+					<version>${ent-common-util-spring.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-common-util-util</artifactId>
+					<version>${ent-common-util-util.version}</version>
+				</dependency>
+			</dependencies>
+
+			<build>
+				<plugins>
+
+					<!-- carries out a findbugs 'check' - will fail the build if bugs detetced -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+						<version>${maven-findbugs-plugin.version}</version>
+						<configuration>
+							<threshold>${findbugs.check.threshold}</threshold>
+							<maxRank>${findbugs.check.maxRank}</maxRank>
+						</configuration>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>2.11</version>
+						<executions>
+							<execution>
+								<id>validate</id>
+								<phase>validate</phase>
+
+								<configuration>
+									<configLocation>http://scnexus.nb.goed.com.au:8081/nexus/content/repositories/releases/au/com/goed/ent-common-checkstylerulesfile/2.0.11/ent-common-checkstylerulesfile-2.0.11.xml</configLocation>
+									<consoleOutput>true</consoleOutput>
+									<failsOnError>true</failsOnError>
+									<suppressionsLocation>${basedir}/src/main/resources/checkstyle/CheckstyleSuppressions.xml</suppressionsLocation>
+									<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+									<includeTestSourceDirectory>true</includeTestSourceDirectory>
+									<testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+									<includeResources>false</includeResources>
+
+								</configuration>
+
+								<goals>
+									<goal>check</goal>
+								</goals>
+
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.15</version>
+						<configuration>
+							<dependenciesToScan>
+								<dependency>au.com.goed:ent-common-codequality</dependency>
+							</dependenciesToScan>
+
+							<!-- for some strange reason the build will carry on after failed 
+								tests unless this is specified here -->
+							<testFailureIgnore>false</testFailureIgnore>
+						</configuration>
+					</plugin>
+
+					<!-- the Cobertura plugin will run the unit tests again but this article 
+						has persuaded me that this is actually a good approach : http://stackoverflow.com/questions/732995/running-junits-and-cobertura-with-maven -->
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<version>2.6</version>
+						<configuration>
+							<instrumentation>
+								<excludes>
+									<exclude>${excluded.test.coverage.classes}</exclude>
+									<exclude>${excluded.test.coverage.classes.two}</exclude>
+								</excludes>
+							</instrumentation>
+						</configuration>
+
+						<executions>
+
+							<execution>
+								<id>cobertura-report</id>
+								<phase>prepare-package</phase>	<!-- run in the next phase after 'test' -->
+
+								<configuration>
+									<formats>
+										<format>xml</format>
+										<format>html</format>
+									</formats>
+									<forceMojoExecution>true</forceMojoExecution>
+								</configuration>
+
+								<goals>
+									<goal>clean</goal>
+									<goal>cobertura</goal>	<!-- instrument, test and generate report -->
+								</goals>
+							</execution>
+
+							<execution>
+								<id>cobertura-check</id>
+								<phase>prepare-package</phase>	<!-- run in the next phase after 'test' -->
+
+								<configuration>
+									<check>
+
+										<haltOnFailure>true</haltOnFailure>
+
+										<totalBranchRate>${minimum.test.coverage.totalBranchRate}</totalBranchRate>
+										<totalLineRate>${minimum.test.coverage.totalLineRate}</totalLineRate>
+
+									</check>
+									<forceMojoExecution>true</forceMojoExecution>
+								</configuration>
+
+								<goals>
+									<goal>check</goal>	<!-- fail build if coverage is too low -->
+								</goals>
+							</execution>
+
+						</executions>
+					</plugin>
+
+					<!-- generates findbugs and failsafe reports ( without failing the build 
+						) when the 'site' target is executed -->
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${maven-site-plugin.version}</version>
+						<configuration>
+							<reportPlugins>
+								<plugin>
+									<groupId>org.codehaus.mojo</groupId>
+									<artifactId>findbugs-maven-plugin</artifactId>
+									<version>${maven-findbugs-plugin.version}</version>
+									<configuration>
+										<threshold>${findbugs.report.threshold}</threshold>
+										<maxRank>${findbugs.report.maxRank}</maxRank>
+										<failOnError>false</failOnError>
+									</configuration>
+								</plugin>
+
+								<!-- generates the failsafe report ( even though it uses the surefire 
+									plugin ) -->
+								<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-surefire-report-plugin</artifactId>
+									<version>2.17</version>
+									<reportSets>
+										<reportSet>
+											<id>integration-tests</id>
+											<reports>
+												<report>failsafe-report-only</report>
+											</reports>
+										</reportSet>
+									</reportSets>
+								</plugin>
+
+								<!-- force an index.html to be generated -->
+								<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-project-info-reports-plugin</artifactId>
+									<version>${maven-project-info-reports-plugin.version}</version>
+									<configuration>
+										<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+										<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+									</configuration>
+									<reports>
+										<report>index</report>
+									</reports>
+								</plugin>
+							</reportPlugins>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+			<id>goed-build</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>../AmpXbrl</module>
+				<module>../GenericXbrl</module>
+				<module>../SuperGateXML</module>
+				<!-- <module>../CommonCore</module> -->
+				<module>../Xbrl</module>
+				<module>../AnzSmartChoiceXML</module>
+				<!-- <module>../ent-util-log4j</module> Provided -->
+				<module>../ent-api-super-tic-lodgement</module>
+				<module>../ent-sbr-domain</module>
+				<module>../ent-util-super-tic-xbrl</module>
+				<module>../int-sbr-service</module>
+				<module>../DBCP</module>
+				<module>../notKIVA</module>
+				<module>../ent-bis-fund-admin-time-rules</module>
+				<module>../ent-common-util-infrastructure-spring-config</module>
+
+				<!-- GatewayBridge - contains messaging domain model required by ent-common-msg-service* -->
+				<module>../GatewayBridge</module>
+
+				<!-- AS4/Axway Message Service -->
+				<module>../ent-common-msg-service-as4</module>
+				<module>../ent-common-msg-service-as4-axway</module>
+
+				<!-- <module>int-sbr-web</module> -->
+			</modules>
+		</profile>
+
+		<profile>
+			<id>perpetual-build</id>
+			<dependencies>
+
+				<dependency>
+					<groupId>au.com.goed</groupId>
+					<artifactId>ent-spec-rest-generator-plugin</artifactId>
+					<version>0.0.7</version>
+				</dependency>
+			</dependencies>
+			<modules>
+				<!-- jars -->
+				<!-- <module>ent-super-pom</module> -->
+
+				<module>../ent-common-util-rest</module>
+				<module>../ent-bis-common</module>
+				<module>../ent-bis-rollover-common</module>
+				<module>../ent-bis-email-messaging</module>
+				<module>../ent-bis-rollover-data</module>
+				<module>../ent-bis-rollover-translators</module>
+
+				<module>../perpetual-int-rollover-api</module>
+				<module>../perpetual-int-rollover-common</module>
+
+				<!-- wars -->
+				<module>../ent-bis-rollover-in</module>
+				<module>../perpetual-int-rollovers-in</module>
+				<module>../perpetual-int-rollovers-out</module>
+				<module>../perpetual-int-rollovers-out-mock-server</module>
+
+				<!-- zip -->
+				<module>../perpetual-queue-build</module>
+			</modules>
+		</profile>
+
+
+		<profile>
+
+			<id>integrationtest</id>
+			<properties>
+				<cargo.servlet.port>Must be overridden in project POM</cargo.servlet.port>
+				<cargo.tomcat.ajp.port>Must be overridden in project POM</cargo.tomcat.ajp.port>
+
+				<cargo.datasource.url>Must be overridden in project POM</cargo.datasource.url>
+				<cargo.datasource.username>Must be overridden in project POM</cargo.datasource.username>
+				<cargo.datasource.password>Must be overridden in project POM</cargo.datasource.password>
+
+				<applicationEnvironment>BAMBOO</applicationEnvironment>
+			</properties>
+
+			<build>
+				<plugins>
+
+					<!-- runs up a local Tomcat instance and deploys the project to it -->
+					<plugin>
+						<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+
+						<executions>
+
+							<execution>
+								<id>startTomcat</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+							</execution>
+
+							<execution>
+								<id>stopTomcat</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+
+						</executions>
+
+						<configuration>
+
+							<container>
+								<containerId>tomcat7x</containerId>
+								<zipUrlInstaller>
+									<url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.37/bin/apache-tomcat-7.0.37-windows-x64.zip</url>
+								</zipUrlInstaller>
+							</container>
+
+							<configuration>
+								<properties>
+									<cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+									<cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+
+									<cargo.datasource.datasource.applicationConfigDataSource>
+										cargo.datasource.jndi=jdbc/applicationConfigDataSource|
+										cargo.datasource.driver=oracle.jdbc.OracleDriver|
+										cargo.datasource.url=${cargo.datasource.url}|
+										cargo.datasource.username=${cargo.datasource.username}|
+										cargo.datasource.password=${cargo.datasource.password}
+									</cargo.datasource.datasource.applicationConfigDataSource>
+
+									<cargo.resource.resource.applicationEnvironment>
+										cargo.resource.name=applicationEnvironment|
+										cargo.resource.class=au.com.goed.enterprise.integration.common.crosscuts.util.StringValue|
+										cargo.resource.parameters=stringValue=${applicationEnvironment}
+									</cargo.resource.resource.applicationEnvironment>
+								</properties>
+							</configuration>
+
+						</configuration>
+					</plugin>
+
+					<!-- runs integration tests -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.17</version>
+
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+
+		</profile>
+
+	</profiles>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Provided -->
+			<dependency>
+				<groupId>oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>${oracle.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>oracle</groupId>
+				<artifactId>ons</artifactId>
+				<version>${ons.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+
+			<!-- Compile -->
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>CommonCore</artifactId>
+				<version>${CommonCore.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>not-KIVA</artifactId>
+				<version>${not-KIVA.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>PayrollWizard</artifactId>
+				<version>${PayrollWizard.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>sc-dbcp</artifactId>
+				<version>${SC-DBCP.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>SuperStreamXBRL</artifactId>
+				<version>${SuperStreamXBRL.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>AmpXBRL</artifactId>
+				<version>${AmpXBRL.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>GenericXBRL</artifactId>
+				<version>${GenericXBRL.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>SuperGateXML</artifactId>
+				<version>${SuperGateXML.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>AnzSmartChoiceXML</artifactId>
+				<version>${AnzSmartChoiceXML.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>gatewaybridge</artifactId>
+				<version>${gatewaybridge.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>gatewaymsgmaker</artifactId>
+				<version>${gatewaymsgmaker.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>gatewayrouter</artifactId>
+				<version>${gatewayrouter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-api-super-tic-lodgement</artifactId>
+				<version>${ent-api-super-tic-lodgement.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-util-super-tic-xbrl</artifactId>
+				<version>${ent-util-super-tic-xbrl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-fund-admin-time-rules</artifactId>
+				<version>${ent-bis-fund-admin-time-rules.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-fvs</artifactId>
+				<version>${ent-bis-fvs.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-kernel-domain</artifactId>
+				<version>${ent-kernel-domain.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>kernel-int-contribution-service-api</artifactId>
+				<version>${kernel-int-contribution-service-api.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>kernel-common-util-xml</artifactId>
+				<version>${kernel-common-util-xml.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${apache.commons.io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.enterprisedt</groupId>
+				<artifactId>edtftpj-pro</artifactId>
+				<version>${edtftpj-pro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.enterprisedt</groupId>
+				<artifactId>license</artifactId>
+				<version>${license.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.mq</groupId>
+				<artifactId>com.ibm.mq</artifactId>
+				<version>${com.ibm.mq.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibm.mq</groupId>
+				<artifactId>com.ibm.mq.jmqi</artifactId>
+				<version>${com.ibm.mq.jmqi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>axis</groupId>
+				<artifactId>axis</artifactId>
+				<version>${axis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-discovery</groupId>
+				<artifactId>commons-discovery</artifactId>
+				<version>${commons-discovery.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.axis</groupId>
+				<artifactId>axis-jaxrpc</artifactId>
+				<version>${axis-jaxrpc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>axis</groupId>
+				<artifactId>axis-wsdl4j</artifactId>
+				<version>${axis-wsdl4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-ext-jdk16</artifactId>
+				<version>${bcprov-ext-jdk16.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>${apache.commons.dbcp.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-pool</groupId>
+				<artifactId>commons-pool</artifactId>
+				<version>${apache.commons.pool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${apache.commons.codec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${apache.commons.collections.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>fop</artifactId>
+				<version>${fop.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>avalon-framework</groupId>
+				<artifactId>avalon-framework-api</artifactId>
+				<version>${avalon-framework-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>batlik.all</groupId>
+				<artifactId>batik-all</artifactId>
+				<version>${batik-all.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${commons-logging.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fop.serializer</groupId>
+				<artifactId>serializer</artifactId>
+				<version>${serializer.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xalan</groupId>
+				<artifactId>xalan</artifactId>
+				<version>${xalan.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>${xercesImpl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xml-apis</groupId>
+				<artifactId>xml-apis</artifactId>
+				<version>${xml-apis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>xmlgraphics-commons</artifactId>
+				<version>${xmlgraphics-commons.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.activation</groupId>
+				<artifactId>activation</artifactId>
+				<version>${activation.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jaxb</groupId>
+				<artifactId>jsr173_api</artifactId>
+				<version>${jsr173_api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-servlet-api</artifactId>
+				<version>${tomcat-servlet-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>jasper</artifactId>
+				<version>${jasper.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jsp-api.org.apache.tomcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.stepahead</groupId>
+				<artifactId>expojo_core</artifactId>
+				<version>${expojo_core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.stepahead</groupId>
+				<artifactId>expojo_jdo</artifactId>
+				<version>${expojo_jdo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.stepahead</groupId>
+				<artifactId>sasthreadutils</artifactId>
+				<version>${sasthreadutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>${jackson-core-asl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson-mapper-asl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>${apache.commons-httpclient}</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+				<version>${junit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>apache-log4j-extras</artifactId>
+				<version>${apache-log4j-extras.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${javax.mail.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-all</artifactId>
+				<version>${hamcrest-all.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${apache.commons.validator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-mockito-release-full</artifactId>
+				<version>${powermock-mockito-release-full.version}</version>
+				<classifier>full</classifier>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${mockito-all.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi-ooxml.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>annotations</artifactId>
+				<version>${findbugs.annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${jaxb-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-common-framework</artifactId>
+				<version>${ent-spec-common-framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-common-domain-api</artifactId>
+				<version>${ent-spec-bis-common-domain-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>
+				ent-spec-rest-documentation-generator
+			</artifactId>
+				<version>
+				${ent-spec-rest-documentation-generator.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-util</artifactId>
+				<version>${ent-common-util-util.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>
+				ent-common-util-infrastructure-spring-config
+			</artifactId>
+				<version>
+				${ent-common-util-infrastructure-spring-config.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-spring</artifactId>
+				<version>${ent-common-util-spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-payments-common</artifactId>
+				<version>${ent-bis-payments-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-sso</artifactId>
+				<version>${ent-common-util-sso.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.odysseus.juel</groupId>
+				<artifactId>juel-impl</artifactId>
+				<version>${juel-impl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.odysseus.juel</groupId>
+				<artifactId>juel-api</artifactId>
+				<version>${juel-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.odysseus.juel</groupId>
+				<artifactId>juel</artifactId>
+				<version>2.1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-date-time-place</artifactId>
+				<version>${ent-common-util-date-time-place.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-msg-service-as4</artifactId>
+				<version>${ent-common-msg-service-as4.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-msg-service-as4-axway</artifactId>
+				<version>${ent-common-msg-service-as4-axway.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-api-jdo</artifactId>
+				<version>${datanucleus.api.jdo.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-core</artifactId>
+				<version>${datanucleus.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.datanucleus</groupId>
+				<artifactId>datanucleus-rdbms</artifactId>
+				<version>${datanucleus.rdbms.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.jdo</groupId>
+				<artifactId>jdo-api</artifactId>
+				<version>${jdo.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>${maven-plugin-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-util-rest</artifactId>
+				<version>${ent-common-util-rest.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-common</artifactId>
+				<version>${ent-bis-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-rollover-common</artifactId>
+				<version>${ent-bis-rollover-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-rollover-data</artifactId>
+				<version>${ent-bis-rollover-data.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>SC</artifactId>
+				<version>${sctomcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-core</artifactId>
+				<version>${spring.ws.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ws.commons.axiom</groupId>
+				<artifactId>axiom-api</artifactId>
+				<version>${axiom-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.ws.commons.axiom</groupId>
+				<artifactId>axiom-impl</artifactId>
+				<version>${axiom-impl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-jpa-entities</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-int-payments-anz-aba-file</artifactId>
+				<version>${ent-int-payments-anz-aba-file.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-payments-service</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-payments-api</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-banking-api</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-banking-service-common</artifactId>
+				<version>${ent-bis-banking-service-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-banking-admin-api</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-rollover-translators</artifactId>
+				<version>${ent-bis-rollover-translators.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>
+				kernel-int-contribution-service-domain
+			</artifactId>
+				<version>
+				${kernel-int-contribution-service-domain.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>web-styling-tags</artifactId>
+				<classifier>static</classifier>
+				<version>${web.styling.tags.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-webflow</artifactId>
+				<version>${spring-webflow.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-digester3</artifactId>
+				<version>3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-core</artifactId>
+				<version>${apache-tiles.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-api</artifactId>
+				<version>${apache-tiles.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-jsp</artifactId>
+				<version>${apache-tiles.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-servlet</artifactId>
+				<version>${apache-tiles.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tiles</groupId>
+				<artifactId>tiles-template</artifactId>
+				<version>${apache-tiles.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.7.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-core</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-spring</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-spring-javaconfig</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-http4</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-stream</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-jetty</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-bindy</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jolokia</groupId>
+				<artifactId>jolokia-core</artifactId>
+				<version>${jolokia.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-test-spring</artifactId>
+				<version>${camel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-core</artifactId>
+				<version>${hystrix.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>fluent-hc</artifactId>
+				<version>${apache-httpclient-fc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.undertow</groupId>
+				<artifactId>undertow-core</artifactId>
+				<version>${undertow-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-email-messaging</artifactId>
+				<version>${ent-bis-email-messaging.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>perpetual-int-rollover-common</artifactId>
+				<version>${perpetual-int-rollover-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>perpetual-int-rollover-api</artifactId>
+				<version>${perpetual-int-rollover-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-core</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.integration</groupId>
+				<artifactId>spring-integration-mail</artifactId>
+				<version>${spring.integration.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring.data.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-jpamodelgen</artifactId>
+				<version>${hibernate-jpamodelgen.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>${hibernate-jpa-2.0-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.xhtmlrenderer</groupId>
+				<artifactId>flying-saucer-pdf</artifactId>
+				<version>${flying-saucer-pdf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.jmx</groupId>
+				<artifactId>jmxri</artifactId>
+				<version>${jmxri.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.jms</groupId>
+				<artifactId>jms</artifactId>
+				<version>${jms.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.jdmk</groupId>
+				<artifactId>jmxtools</artifactId>
+				<version>${jmxtools.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.servicemix.specs</groupId>
+				<artifactId>
+				org.apache.servicemix.specs.saaj-api-1.3
+			</artifactId>
+				<version>
+				${org.apache.servicemix.specs.saaj-api-1.3.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>myob-spec-int-contributions-api</artifactId>
+				<version>${myob-spec-int-contributions-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>myob-int-contribution-services</artifactId>
+				<version>${myob-int-contribution-services.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>myob-int-jpa-entities</artifactId>
+				<version>${myob-int-jpa-entities.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>myob-int-contribution-dao</artifactId>
+				<version>${myob-int-contribution-dao.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>myob-test-message-generator</artifactId>
+				<version>${myob-test-message-generator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-test-harness</artifactId>
+				<version>${ent-test-harnessr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson-annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-rest-webmvc</artifactId>
+				<version>1.0.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-jdbc</artifactId>
+				<version>${tomcat-jdbc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>${easymock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-member-api</artifactId>
+				<version>${ent-spec-int-member-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-contribution-api</artifactId>
+				<version>${ent-spec-int-contribution-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-tfn-api</artifactId>
+				<version>${ent-spec-int-tfn-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-common-server-framework</artifactId>
+				<version>${ent-spec-common-framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-common-client-framework</artifactId>
+				<version>
+				${ent-spec-common-client-framework.version}
+			</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.retry</groupId>
+				<artifactId>spring-retry</artifactId>
+				<version>${spring-retry.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-test-automation-common</artifactId>
+				<version>${ent-test-automation-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging-api</artifactId>
+				<version>${commons-logging-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.saxon</groupId>
+				<artifactId>Saxon-HE</artifactId>
+				<version>${Saxon-HE.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-rollovers-api</artifactId>
+				<version>${ent-spec-bis-rollovers-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-rollovers-api</artifactId>
+				<version>${ent-spec-int-rollovers-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-codequality</artifactId>
+				<version>${ent-common-codequality.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.gov.abr</groupId>
+				<artifactId>abr-security-token-manager</artifactId>
+				<version>${abr-security-token-manager.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.gov.abr</groupId>
+				<artifactId>abr-auskey-manager-api</artifactId>
+				<version>${abr-auskey-manager-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.gov.sbr</groupId>
+				<artifactId>sbr-core-services-requester</artifactId>
+				<version>${sbr-core-services-requester.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-commons</artifactId>
+				<version>1.6.2.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>1.1.0.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.metro</groupId>
+				<artifactId>webservices-rt</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.metro</groupId>
+				<artifactId>webservices-api</artifactId>
+				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-int-service-crosscuts</artifactId>
+				<version>0.0.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.functionaljava</groupId>
+				<artifactId>functionaljava</artifactId>
+				<version>
+					${org.functionaljava.functionaljava.version}
+				</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kubek2k</groupId>
+				<artifactId>springockito</artifactId>
+				<version>${springockito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>${cglib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>2.42.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.redfish4ktc.soapui</groupId>
+				<artifactId>maven-soapui-extension-plugin</artifactId>
+				<version>4.6.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.8</version>
+			</dependency>
+			<dependency>
+				<groupId>wsdl4j</groupId>
+				<artifactId>wsdl4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk16</artifactId>
+				<version>1.45</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcmail-jdk16</artifactId>
+				<version>1.45</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>2.2.3-1</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.ws</groupId>
+				<artifactId>jaxws-api</artifactId>
+				<version>2.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.ws</groupId>
+				<artifactId>jaxws-rt</artifactId>
+				<version>2.2.3</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-contributions-schematron-api</artifactId>
+				<version>${ent-spec-int-contributions-schematron-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-sbr-domain</artifactId>
+				<version>${ent-sbr-domain.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>int-sbr-service</artifactId>
+				<version>${int-sbr-service.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.inject</groupId>
+				<artifactId>javax.inject</artifactId>
+				<version>1</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>Commons</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ProductService</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>FundAdminService</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>EmployerService</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>MemberService</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ContributionService</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-contribution-batch</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>
+					anz-cas-bis-paymentdetails-batch
+				</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-unallocated-batch</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-cashreceipt-batch</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-abafile-batch</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-winsas-daily-batch</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>anz-cas-bis-admin-service</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${spring-security.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jsp-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-util-log4j</artifactId>
+				<version>${ent-util-log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>DataAccess</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>${joda-time.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-core</artifactId>
+				<version>${spring-batch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.batch</groupId>
+				<artifactId>spring-batch-infrastructure</artifactId>
+				<version>${spring-batch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-bis-email-service</artifactId>
+				<version>${ent-bis-email-service.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-funds-service-api</artifactId>
+				<version>${ent-spec-bis-funds-service-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-contribution-transaction-service-web</artifactId>
+				<version>${ent-contribution-transaction-service-web.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-contribution-transaction-service-common</artifactId>
+				<version>${ent-contribution-transaction-service-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-int-contribution-transaction-service-dao</artifactId>
+				<version>${ent-int-contribution-transaction-service-dao.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-file-producer</artifactId>
+				<version>${ent-common-file-producer.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>au.com.goed</groupId>
+                <artifactId>ent-bis-funds-service</artifactId>
+                <version>${ent-bis-funds-service.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>au.com.goed</groupId>
+                <artifactId>ent-funds-service-web</artifactId>
+                <version>${ent-funds-service-web.version}</version>
+            </dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-int-common-crosscuts</artifactId>
+				<version>${ent-int-common-crosscuts.version}</version>
+			</dependency>
+
+			<!-- ServiceRequester API -->
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-int-client-crosscuts</artifactId>
+				<version>0.0.4</version>
+			</dependency>
+
+			<!-- ServiceRequester Implementation -->
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-common-servicerequester</artifactId>
+				<version>0.0.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-int-analytics-api</artifactId>
+				<version>${ent-spec-int-analytics-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>au.com.goed</groupId>
+				<artifactId>ent-spec-bis-contribution-transaction-service-api</artifactId>
+				<version>${ent-spec-bis-contribution-transaction-service-api.version}</version>
+			</dependency>
+		</dependencies>
+
+
+	</dependencyManagement>
+
+</project>
