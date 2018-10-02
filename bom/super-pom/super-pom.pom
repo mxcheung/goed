@@ -347,20 +347,6 @@
 
 	<profiles>
 
-		<profile>
-			<id>full-gateway-build</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<modules>
-				<module>../GatewayBridge</module>
-				<module>../GatewayMsgMaker</module>
-				<module>../ent-common-msg-service-as4</module>
-				<module>../ent-common-msg-service-as4-axway</module>
-				<module>../GatewayRouter</module>
-				<module>../GatewayRouterUI</module>
-			</modules>
-		</profile>
 
 		<!-- Not used, can delete this? -->
 		<!-- <profile> -->
@@ -371,22 +357,11 @@
 		<!-- <modules> -->
 		<!-- <module>ent-bis-common</module> -->
 		<!-- <module>ent-bis-email-messaging</module> -->
-		<!-- <module>ent-bis-rollover-common</module> -->
-		<!-- <module>ent-bis-rollover-data</module> -->
-		<!-- <module>ent-bis-rollover-in</module> -->
-		<!-- <module>ent-bis-rollover-translators</module> -->
 		<!-- <module>ent-bis-validation-service</module> -->
 		<!-- <module>ent-bis-validation-service-build</module> -->
 		<!-- <module>ent-common-util-rest</module> -->
 		<!-- <module>ent-spec-rest-generator-plugin</module> -->
-		<!-- <module>ent-super-tic-data</module> -->
-		<!-- <module>perpetual-aggregate-pom</module> -->
-		<!-- <module>perpetual-int-rollover-api</module> -->
-		<!-- <module>perpetual-int-rollover-common</module> -->
-		<!-- <module>perpetual-int-rollovers-in</module> -->
-		<!-- <module>perpetual-int-rollovers-out</module> -->
-		<!-- <module>perpetual-int-rollovers-out-mock-server</module> -->
-		<!-- <module>perpetual-queue-build</module> -->
+
 		<!-- </modules> -->
 		<!-- </profile> -->
 
@@ -732,18 +707,12 @@
 				<module>../ent-spec-bom</module>
 				<module>../ent-test-bom</module>
 				<module>../gateway-bom</module>
-				<module>../kernel-bom</module>
-				<module>../myob-bom</module>
-				<module>../payments-bom</module>
-				<module>../perpetual-bom</module>
 				<module>../third-party-bom</module>
 				<module>../the-others-bom</module>
 				<module>../common-int-bom</module>
 				<module>../client-int-bom</module>
 				<module>../service-int-bom</module>
 				<module>../jpa-bom</module>
-				<module>../ssis-bom</module>
-				<module>../sbr-bom</module>
 			</modules>
 		</profile>
 
@@ -759,33 +728,7 @@
 
 		<!-- Not used, can delete this? -->
 		<!-- <profile> -->
-
-		<!-- <id>perpetual-build</id> -->
-		<!-- <activation> -->
-		<!-- <activeByDefault>false</activeByDefault> -->
-		<!-- </activation> -->
-		<!-- <modules> -->
-		<!-- jars -->
-		<!-- <module>ent-super-pom</module> -->
-
-		<!-- <module>../ent-common-util-rest</module> -->
-		<!-- <module>../ent-bis-common</module> -->
-		<!-- <module>../ent-bis-rollover-common</module> -->
-		<!-- <module>../ent-bis-email-messaging</module> -->
-		<!-- <module>../ent-bis-rollover-data</module> -->
-		<!-- <module>../ent-bis-rollover-translators</module> -->
-
-		<!-- <module>../perpetual-int-rollover-api</module> -->
-		<!-- <module>../perpetual-int-rollover-common</module> -->
-
-		<!-- wars -->
-		<!-- <module>../ent-bis-rollover-in</module> -->
-		<!-- <module>../perpetual-int-rollovers-in</module> -->
-		<!-- <module>../perpetual-int-rollovers-out</module> -->
-		<!-- <module>../perpetual-int-rollovers-out-mock-server</module> -->
-
 		<!-- zip -->
-		<!-- <module>../perpetual-queue-build</module> -->
 		<!-- </modules> -->
 		<!-- <dependencies> -->
 
