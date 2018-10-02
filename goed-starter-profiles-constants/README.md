@@ -1,9 +1,9 @@
-# LONSEC DIGITAL Starter Profiles Constants
+# GOED DIGITAL Starter Profiles Constants
 =======================================
 ---
-This module provides predefined profiled annotations and constants for use across all projects that require to use Lonsec environement standard profiles.
+This module provides predefined profiled annotations and constants for use across all projects that require to use Goed environement standard profiles.
 
-There are 4 profiles that a Lonsec Digital Developer will be building applications for:
+There are 4 profiles that a Goed Digital Developer will be building applications for:
 
 1. `local` => Local development environment
 2. `dev` => Development environment
